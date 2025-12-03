@@ -5,11 +5,11 @@ from fcfs import fcfs
 from sjf import sjf
 from priority_scheduling import priority_scheduling
 from round_robin import round_robin
-
+from srtf import srtf
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
-        print("Uso: python program.py input_file.csv [FCFS|SJF|PS|RR] [q=quantum]")
+        print("Uso: python program.py input_file.csv [FCFS|SJF|PS|RR|SRTF] [q=quantum]")
         sys.exit(1)
     
     filename = sys.argv[1]
@@ -35,6 +35,8 @@ if __name__ == "__main__":
         quantum = int(sys.argv[3].split('=')[1])
         print(f"Quantum Time: {quantum} ms\n")
         result = round_robin(processes, quantum)
+    elif algorithm == "SRTF":
+        result = srtf(processes)
     else:
         print(f"Algoritmo desconocido: {algorithm}")
         print("Algoritmos válidos: FCFS, SJF, PS, RR")
