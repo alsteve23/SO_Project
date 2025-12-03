@@ -1,44 +1,33 @@
 from process import Process
 
 def srtf(processes):
-    """Shortest Job First (Preemptive) - También conocido como SRTF (Shortest Remaining Time First)"""
-    n = len(processes)
-    completed = []
+    """Shortest Remaining Time First (Preemptive SJF)"""
+    processes.sort(key=lambda x: x.arrival_time)
     current_time = 0
-    completed_count = 0
+    completed = []
+    remaining = processes.copy()
     
-    # Crear copias para no modificar los originales
-    process_list = processes.copy()
-    
-    # Encontrar el tiempo máximo para la simulación
-    max_time = max(p.arrival_time for p in process_list) + sum(p.burst_time for p in process_list)
-    
-    while completed_count < n:
-        # Encontrar procesos disponibles
-        available = [p for p in process_list if p.arrival_time <= current_time and p.remaining_time > 0]
+    while remaining:
+        # Procesos disponibles en el tiempo actual
+        available = [p for p in remaining if p.arrival_time <= current_time]
         
         if not available:
-            # Si no hay procesos disponibles, avanzar al siguiente arrival
-            current_time += 1
+            current_time = remaining[0].arrival_time
             continue
         
         # Seleccionar el proceso con menor remaining_time
-        current_process = min(available, key=lambda x: x.remaining_time)
+        process = min(available, key=lambda x: x.remaining_time)
         
         # Ejecutar por 1 unidad de tiempo
-        current_process.remaining_time -= 1
+        process.remaining_time -= 1
         current_time += 1
         
         # Si el proceso terminó
-        if current_process.remaining_time == 0:
-            completed_count += 1
-            current_process.completion_time = current_time
-            current_process.turnaround_time = current_process.completion_time - current_process.arrival_time
-            current_process.waiting_time = current_process.turnaround_time - current_process.burst_time
-            completed.append(current_process)
-        
-        # Prevenir bucles infinitos
-        if current_time > max_time:
-            break
+        if process.remaining_time == 0:
+            remaining.remove(process)
+            process.completion_time = current_time
+            process.turnaround_time = process.completion_time - process.arrival_time
+            process.waiting_time = process.turnaround_time - process.burst_time
+            completed.append(process)
     
     return completed
