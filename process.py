@@ -39,5 +39,8 @@ def print_results(processes):
     
     n = len(processes)
     print("-" * 84)
+    
+    print(f"\nTotal Turnaround Time: {total_turnaround:.2f} ms")
+    print(f"\nTotal Waiting Time: {total_waiting:.2f} ms")
     print(f"\nAverage Turnaround Time: {total_turnaround/n:.2f} ms")
     print(f"Average Waiting Time: {total_waiting/n:.2f} ms")
