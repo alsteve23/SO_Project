@@ -6,10 +6,11 @@ from sjf import sjf
 from priority_scheduling import priority_scheduling
 from round_robin import round_robin
 from srtf import srtf
+from priority_pre import priority_preemptive
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
-        print("Uso: python program.py input_file.csv [FCFS|SJF|PS|RR|SRTF] [q=quantum]")
+        print("Uso: python program.py input_file.csv [FCFS|SJF|PS|RR|SRTF|PP] [q=quantum]")
         sys.exit(1)
     
     filename = sys.argv[1]
@@ -37,9 +38,11 @@ if __name__ == "__main__":
         result = round_robin(processes, quantum)
     elif algorithm == "SRTF":
         result = srtf(processes)
+    elif algorithm == "PP":
+        result = priority_preemptive(processes)
     else:
         print(f"Algoritmo desconocido: {algorithm}")
-        print("Algoritmos válidos: FCFS, SJF, PS, RR")
+        print("Algoritmos válidos: FCFS, SJF, PS, RR, SRTF, PP")
         sys.exit(1)
     
     print_results(result)
