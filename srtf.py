@@ -8,7 +8,7 @@ def srtf(processes):
     completed_count = 0
     
     # Crear copias para no modificar los originales
-    process_list = [Process(p.pid, p.arrival_time, p.burst_time, p.priority) for p in processes]
+    process_list = processes.copy()
     
     # Encontrar el tiempo máximo para la simulación
     max_time = max(p.arrival_time for p in process_list) + sum(p.burst_time for p in process_list)
